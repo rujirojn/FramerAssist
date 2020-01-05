@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
         primarySwatch: Colors.blue,
+        fontFamily: 'Kanit',
       ),
       home: MyHomePage(title: 'Yaya Page'),
     );
@@ -93,6 +94,9 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             Text(
               'i have a food',
+            ),
+            Text(
+              'ฉันมีอาหาร',
             ),
             Text(
               '$_counter',

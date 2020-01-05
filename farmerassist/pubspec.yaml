@@ -34,7 +34,12 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
-
+  fonts:
+    - family: Kanit
+      fonts:
+        - asset: fonts/Kanit-Regular.ttf
+        - asset: fonts/Kanit-Italic.ttf
+          style: italic
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
