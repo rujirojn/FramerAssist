@@ -1,115 +1,107 @@
+// Copyright 2017 The Chromium Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-        fontFamily: 'Kanit',
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text('ExpansionTile'),
+        ),
+        body: ListView.builder(
+          itemBuilder: (BuildContext context, int index) =>
+              EntryItem(data[index]),
+          itemCount: data.length,
+        ),
       ),
-      home: MyHomePage(title: 'Yaya Page'),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
+// One entry in the multilevel list displayed by this app.
+class Entry {
+  Entry(this.title, [this.children = const <Entry>[]]);
 
   final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
+  final List<Entry> children;
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+// The entire multilevel list displayed by this app.
+final List<Entry> data = <Entry>[
+  Entry(
+    'Chapter A',
+    <Entry>[
+      Entry(
+        'Section A0',
+        <Entry>[
+          Entry('Item A0.1'),
+          Entry('Item A0.2'),
+          Entry('Item A0.3'),
+        ],
+      ),
+      Entry('Section A1'),
+      Entry('Section A2'),
+    ],
+  ),
+  Entry(
+    'Chapter B',
+    <Entry>[
+      Entry('Section B0'),
+      Entry('Section B1'),
+    ],
+  ),
+  Entry(
+    'Chapter C',
+    <Entry>[
+      Entry('Section C0'),
+      Entry('Section C1'),
+      Entry(
+        'Section C2',
+        <Entry>[
+          Entry('Item C2.0'),
+          Entry('Item C2.1'),
+          Entry('Item C2.2'),
+          Entry('Item C2.3'),
+        ],
+      ),
+    ],
+  )
+  ,Entry( 'Chapter test1')
+  ,Entry( 'Chapter test2')
+  ,Entry( 'Chapter test3')
+  ,Entry( 'Chapter test4')
+  ,Entry( 'Chapter test5')
+  ,Entry( 'Chapter test6')
+  ,Entry( 'Chapter test7')
+  ,Entry( 'Chapter test8')
+  ,Entry( 'Chapter test9')
+];
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+// Displays one Entry. If the entry has children then it's displayed
+// with an ExpansionTile.
+class EntryItem extends StatelessWidget {
+  const EntryItem(this.entry);
+
+  final Entry entry;
+
+  Widget _buildTiles(Entry root) {
+    if (root.children.isEmpty) return ListTile(title: Text(root.title));
+    return ExpansionTile(
+      key: PageStorageKey<Entry>(root),
+      title: Text(root.title),
+      children: root.children.map(_buildTiles).toList(),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'i have a food',
-            ),
-            Text(
-              'ฉันมีอาหาร',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.display1,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
+    return _buildTiles(entry);
   }
 }
+
