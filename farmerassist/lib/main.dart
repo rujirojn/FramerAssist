@@ -19,8 +19,22 @@ class MyApp extends StatelessWidget {
               EntryItem(data[index]),
           itemCount: data.length,
         ),
+        floatingActionButton: FloatingActionButton(
+        onPressed: _incrementCounter,
+        tooltip: 'Increment',
+        child: Icon(Icons.add),
+      ), // This trailing comma makes auto-formatting nicer for build methods.
       ),
+        theme: ThemeData(
+           primarySwatch: Colors.blue,
+           brightness: Brightness.dark,
+           
+        ),
     );
+  }
+  void _incrementCounter()
+  {
+    
   }
 }
 
@@ -72,15 +86,15 @@ final List<Entry> data = <Entry>[
       ),
     ],
   )
-  ,Entry( 'Chapter test1')
-  ,Entry( 'Chapter test2')
-  ,Entry( 'Chapter test3')
-  ,Entry( 'Chapter test4')
-  ,Entry( 'Chapter test5')
-  ,Entry( 'Chapter test6')
-  ,Entry( 'Chapter test7')
-  ,Entry( 'Chapter test8')
-  ,Entry( 'Chapter test9')
+  // ,Entry( 'Chapter test1')
+  // ,Entry( 'Chapter test2')
+  // ,Entry( 'Chapter test3')
+  // ,Entry( 'Chapter test4')
+  // ,Entry( 'Chapter test5')
+  // ,Entry( 'Chapter test6')
+  // ,Entry( 'Chapter test7')
+  // ,Entry( 'Chapter test8')
+  // ,Entry( 'Chapter test9')
 ];
 
 // Displays one Entry. If the entry has children then it's displayed
